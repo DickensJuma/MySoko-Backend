@@ -11,12 +11,10 @@ const { createLogger, format, transports } = require("winston");
  
 
 
-
-
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 
 
@@ -54,6 +52,11 @@ app.use(morgan('dev', {
             body: req.body,
         });
         next();
+    });
+
+    //health check
+    app.get('/health', (req, res) => {
+        res.status(200).json({ message: 'Server is up and running' });
     });
     
   app.use('/api', userRouter);
