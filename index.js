@@ -34,6 +34,16 @@ const start = async () => {
   app.use(express.json());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
+
+
+ // Add CORS middleware
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
   // log only 4xx and 5xx responses to console
 app.use(morgan('dev', {
     skip: function (req, res) { return res.statusCode < 400 }
