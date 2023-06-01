@@ -19,6 +19,12 @@ const UserSchema = new mongoose.Schema({
         enum: ["user", "admin"],
         default: "user",
     },
+    status: {
+        type: Boolean,
+        default: true,
+        
+    },
+
     shop_name: {
         type: String,
         required: [false, "Please provide a shop name"],
@@ -27,6 +33,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [false, "Please provide a shop address"],
     },
+    referral_code: {
+        type: String,
+        required: false,
+    },
+
     
 });
 

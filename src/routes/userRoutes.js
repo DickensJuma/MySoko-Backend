@@ -65,6 +65,8 @@ console.log("I WAS CALLED REGISTER 2", existingUser)
         role: "user",
         shop_name: req.body.shop_name,
         shop_address: req.body.shop_address,
+        referral_code: req.body.referral_code,
+        status: true,
     });
 
 
@@ -92,13 +94,17 @@ router.post('/user/login', async (req, res) => {
         return res.status(400).json({ message: 'Phone Number does not exists' });
       }
 
-
-    const passwordMatch = await bcrypt.compare(password, existingUser.password);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ message: 'Invalid password' });
-    }
-
+      
+      
+      const passwordMatch = await bcrypt.compare(password, existingUser.password);
+      
+      if (!passwordMatch) {
+          return res.status(401).json({ message: 'Invalid password' });
+        }
+        if (existingUser.status == false) {
+            return res.status(400).json({ message: 'User is inactive' });
+            }
+        
     const token = jwt.sign({ phone_number: existingUser.phone_number }, 'secret_key', { expiresIn: '1h' });
 
     res.status(200).json({ token, role: existingUser.role, user: existingUser });
@@ -123,6 +129,8 @@ router.put('/user/update/:userId', async (req, res) => {
                 role: req.body.role,
                 shop_name: req.body.shop_name,
                 shop_address: req.body.shop_address,
+                referral_code: req.body.referral_code,
+                status: req.body.status,
             }}
         );
         res.status(200).json({ message: 'User updated successfully', user: updatedUser });
