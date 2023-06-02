@@ -37,6 +37,11 @@ const ProductSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  moq: {
+    type: String,
+    required: [true, "Please provide a product moq"],
+    },
+    
 });
 
 module.exports = mongoose.model("Product", ProductSchema);
