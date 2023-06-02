@@ -59,12 +59,9 @@ const { product_name, product_price, product_description, product_image, product
         product_category: product_category,
         product_quantity: product_quantity,
         user: user_id,
+        visible: true,
 
     });
-
-    //sample product
-  
-
 
 
     try {
@@ -92,11 +89,11 @@ const { product_name, product_price, product_description, product_image, product
 router.put('/product/:productId', async (req, res) => {
     const productId = req.params.productId;
 
-    const { product_name, product_price, product_description, product_image, product_category, product_quantity, user_id } = req.body;
+    const { product_name, product_price, product_description, product_image, product_category, product_quantity, user_id, visible } = req.body;
 
     try {
     
-        const updatedProduct = await Product.findByIdAndUpdate(productId, {product_name, product_price, product_description, product_image, product_category, product_quantity, user_id}, { new: true });
+        const updatedProduct = await Product.findByIdAndUpdate(productId, {product_name, product_price, product_description, product_image, product_category, product_quantity, user_id, visible}, { new: true });
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Product not found' });
         }

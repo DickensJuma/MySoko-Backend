@@ -70,6 +70,7 @@ console.log("I WAS CALLED REGISTER 2", existingUser)
     });
 
 
+    
 
     try {
         const savedUser = await user.save();
@@ -79,8 +80,56 @@ console.log("I WAS CALLED REGISTER 2", existingUser)
         console.error('Error registering user', error);
     res.status(500).json({ message: 'Failed to register user' });
     }
+
     }
 );
+
+//register a referrer
+    router.post('/user/register-referrer', async (req, res) => {
+
+        // Check if phone number already exists
+        console.log("I WAS CALLED REGISTER", req.body)
+        const existingUser = await User.findOne({ phone_number: req.body.phone_number });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Phone Number already exists' });
+          }
+      
+    console.log("I WAS CALLED REFERAL", existingUser)
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+        //REFERRAL CODE
+
+        const referral_code = req.body.full_name.substring(0, 3) + req.body.phone_number.substring(0, 3) + Math.floor(Math.random() * 10000);
+        console.log("I WAS CALLED REFERAL", referral_code)
+    
+        const user = new User({
+            full_name: req.body.full_name,
+            phone_number: req.body.phone_number,
+            password: hashedPassword,
+            role: "referrer",
+            shop_name: "",
+            shop_address: "",
+            referral_code: referral_code,
+            status: true,
+
+        });
+    
+    
+        
+    
+        try {
+            const savedUser = await user.save();
+            console.log(savedUser)
+            res.status(201).json({ message: 'User referral registered successfully', user: savedUser  });
+        } catch(error) {
+            console.error('Error registering user referral ', error);
+        res.status(500).json({ message: 'Failed to register user' });
+        }
+
+
+    });
 
 //login
 router.post('/user/login', async (req, res) => {
