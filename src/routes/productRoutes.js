@@ -87,7 +87,7 @@ const { product_name, product_price, product_description, product_image, product
 
 // Update a product
 
-router.put('/product/:productId', async (req, res) => {
+router.put('/product/update/:productId', async (req, res) => {
     const productId = req.params.productId;
 
     const { product_name, product_price, product_description, product_image, product_category, product_quantity, user_id, visible, moq } = req.body;
