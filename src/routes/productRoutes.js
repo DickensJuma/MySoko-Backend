@@ -21,7 +21,7 @@ router.get('/product/all', async (req, res) => {
 );
 
 //get a specific product
-router.get('/product/update/:productId', async (req, res) => {
+router.get('/product/:productId', async (req, res) => {
 
         try {
             const product = await Product.findById(req.params.productId).exec();
