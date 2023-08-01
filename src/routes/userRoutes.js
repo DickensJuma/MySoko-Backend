@@ -53,7 +53,7 @@ router.post('/user/register', async (req, res) => {
         return res.status(400).json({ message: 'Phone Number already exists' });
       }
   
-console.log("I WAS CALLED REGISTER 2", existingUser)
+
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -78,7 +78,7 @@ console.log("I WAS CALLED REGISTER 2", existingUser)
         res.status(201).json({ message: 'User registered successfully', user: savedUser  });
     } catch(error) {
         console.error('Error registering user', error);
-    res.status(500).json({ message: 'Failed to register user' });
+    res.status(500).json({ message: 'Failed to register user' , error: error});
     }
 
     }
